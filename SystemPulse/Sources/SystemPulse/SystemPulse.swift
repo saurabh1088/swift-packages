@@ -17,12 +17,26 @@ struct SystemPulse: ParsableCommand {
     func run() throws {
         print("⚡️ System Pulse Active")
         
+        let task = Process()
+        let pipe = Pipe()
+
+        task.standardOutput = pipe
+        task.arguments = ["-h", "/"]
+        task.executableURL = URL(fileURLWithPath: "/bin/df")
+
+        try task.run()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = String(data: data, encoding: .utf8) {
+            print("****************************************************************************")
+            print(output)
+        }
+        
         if watch {
             print("Monitoring mode enabled... (Press Ctrl+C to stop)")
-            // We will implement the loop here later
+            // TODO: Implement
         } else {
             print("Fetching snapshot...")
-            // We will implement the data fetch here later
+            // TODO: Implement
         }
     }
 }
