@@ -17,19 +17,14 @@ struct SystemPulse: ParsableCommand {
     func run() throws {
         print("⚡️ System Pulse Active")
         
-        let task = Process()
-        let pipe = Pipe()
-
-        task.standardOutput = pipe
-        task.arguments = ["-h", "/"]
-        task.executableURL = URL(fileURLWithPath: "/bin/df")
-
-        try task.run()
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        if let output = String(data: data, encoding: .utf8) {
+        do {
+            let dfOutput = try ShellExecutor.run(launchPath: "/bin/df", arguments: ["-h", "/"])
             print("****************************************************************************")
-            print(output)
+            print(dfOutput)
+        } catch {
+            print("Exception occurred while executing command /bin/df -h /")
         }
+        
         
         if watch {
             print("Monitoring mode enabled... (Press Ctrl+C to stop)")
@@ -40,3 +35,4 @@ struct SystemPulse: ParsableCommand {
         }
     }
 }
+
