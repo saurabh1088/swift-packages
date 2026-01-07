@@ -6,7 +6,7 @@ SystemPulse is a Swift Package that provides a starting point for building an ex
 
 - **1. Initialize the project**
 
-  Open your Terminal and run the following commands to create your project structure:
+  Open Terminal and execute the following commands to create the project structure:
 
   ```bash
   mkdir SystemPulse
