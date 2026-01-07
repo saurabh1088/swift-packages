@@ -18,13 +18,15 @@ struct SystemPulse: ParsableCommand {
         print("⚡️ System Pulse Active")
         
         do {
-            let dfOutput = try ShellExecutor.run(launchPath: "/bin/df", arguments: ["-h", "/"])
-            print("****************************************************************************")
-            print(dfOutput)
+            let disk = try DiskSensor.fetch()
+            
+            // 🎨 Presentation Layer: Add some color!
+            let color = disk.percentageUsed > 80 ? "🔴" : "🟢"
+            print("\(color) Disk Usage: \(disk.percentageUsed)%")
+            
         } catch {
-            print("Exception occurred while executing command /bin/df -h /")
+            print("❌ Error fetching disk metrics: \(error)")
         }
-        
         
         if watch {
             print("Monitoring mode enabled... (Press Ctrl+C to stop)")
