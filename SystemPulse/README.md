@@ -56,4 +56,6 @@ swift run SystemPulse --help
 swift run SystemPulse --watch
 ```
 
-
+## TODOs
+- Memory (RAM)
+- Live watch
