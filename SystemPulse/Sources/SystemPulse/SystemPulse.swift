@@ -17,6 +17,7 @@ struct SystemPulse: ParsableCommand {
     func run() throws {
         print("⚡️ System Pulse Active")
         
+        // Disk Section
         do {
             let disk = try DiskSensor.fetch()
             
@@ -26,6 +27,19 @@ struct SystemPulse: ParsableCommand {
             
         } catch {
             print("❌ Error fetching disk metrics: \(error)")
+        }
+        
+        // CPU Section
+        do {
+            let cpu = try CPUSensor.fetch()
+            let usage = cpu.totalUsage
+            let icon = usage > 70 ? "🔥" : "💻"
+            
+            // Formatted to 1 decimal place
+            let formattedUsage = String(format: "%.1f", usage)
+            print("\(icon) CPU: \(formattedUsage)% (User: \(cpu.user)%, Sys: \(cpu.system)%)")
+        } catch {
+            print("❌ CPU Error: \(error)")
         }
         
         if watch {
